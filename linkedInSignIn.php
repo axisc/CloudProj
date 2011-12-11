@@ -111,7 +111,9 @@ function displayNetworkUpdatesError(error) {
 </script>
 
 </head>
+
 <body class="yui3-skin-sam     yui-skin-sam">
+
 <br/>---------------------------profiles------------------------------<br/>
 <div id="profiles"></div>
 <br/>---------------------------connections------------------------------<br/>
@@ -120,6 +122,8 @@ function displayNetworkUpdatesError(error) {
 <div id="peoplesearch"></div>
 <br/>---------------------------networkupdates------------------------------<br/>
 <div id="networkupdates"></div>
+
 <script type="IN/Login" data-onAuth="loadData"></script>
+
 </body>
 </html>
