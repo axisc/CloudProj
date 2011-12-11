@@ -6,12 +6,18 @@
 
 <script type="text/javascript">
 	function goToNextPage(){
-		location.href = "linkedInSignIn.php";
+		location.href = "linkedInPeopleSearch.php";
 	}
 
+	
 //	LinkedIn
 //	api key: rbjecyqtr9pn
 //	secret key: c3Z22HhLxFY6FUIB
+</script>
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+  api_key: rbjecyqtr9pn
+  authorize: true
 </script>
 
 </head>
@@ -26,7 +32,13 @@ echo "<h1>Welcome to RECRU SOCIAL</h1>";
 
 
 <form>
+	
 	<input type="button" onclick="goToNextPage()" name="linkedIn" value="linded..in"/>
+	<script type="IN/Login" data-onAuth="goToNextPage">
+		Hello, <?js= firstName ?> <?js= lastName ?>.
+		Please while we load the next page.
+	</script>
+	
 </form>
 
 
