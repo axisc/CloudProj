@@ -33,7 +33,7 @@ echo "<h1>Welcome to RECRU SOCIAL</h1>";
 
 <form>
 	
-	<input type="button" onclick="goToNextPage()" name="linkedIn" value="linded..in"/>
+	<input type="button" onclick="goToNextPage()" name="linkedIn" value="Login to LinkedIn"/>
 	<script type="IN/Login" data-onAuth="goToNextPage">
 		Hello, <?js= firstName ?> <?js= lastName ?>.
 		Please while we load the next page.
