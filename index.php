@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 	function goToNextPage(){
-		location.href = "linkedInPeopleSearch.php";
+		location.href = "linkedInPeopleSearch2.php";
 	}
 
 	
@@ -25,7 +25,6 @@
 <body>
 
 <?php
-
 echo "<h1>Welcome to RECRU SOCIAL</h1>";
  $test ="http://www.gmail.com";
 ?>
@@ -35,8 +34,6 @@ echo "<h1>Welcome to RECRU SOCIAL</h1>";
 	
 	<input type="button" onclick="goToNextPage()" name="linkedIn" value="Login to LinkedIn"/>
 	<script type="IN/Login" data-onAuth="goToNextPage">
-		Hello, <?js= firstName ?> <?js= lastName ?>.
-		Please while we load the next page.
 	</script>
 	
 </form>

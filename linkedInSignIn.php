@@ -18,7 +18,7 @@ function loadData() {
 	   	.result(displayProfiles)
 	   	.error(displayProfilesErrors);
 	IN.API.Connections("me")
-		.fields("firstName", "lastName", "industry")
+		.fields("id", "firstName", "lastName", "industry")
 		.params({"start":0, "count":5})
 		.result(displayConnections)
 		.error(displayConnectionsErrors);
@@ -57,7 +57,7 @@ function displayConnections(connections) {
   	var members = connections.values; // The list of members you are connected to
   	for (var member in members) {
     	connectionsDiv.innerHTML += "<p>" + members[member].firstName + " " + members[member].lastName
-      		+ " works in the " + members[member].industry + " industry";
+      		+ " works in the " + members[member].industry + " industry ... " + members[member].id + "</p>";
 	}     
 }
 
@@ -165,6 +165,28 @@ function displayNetworkUpdates(updates) {
 <div id="networkupdates"></div>
 
 <script type="IN/Login" data-onAuth="loadData"></script>
+
+<script type="IN/MemberData" 
+	data-ids="me,Qu3JfGtTrW"
+	data-fields="firstName,lastName,industry">
+
+<ul>
+<?js for (var member in $("*")) { ?>
+    <li>
+		<?js if ($(member).pictureUrl) { ?>
+  			<img src="<?js= $("me").pictureUrl ?>"> </img>
+		<?js } else { ?>
+ 			<p>Upload a photo, so we can see what you look like.</p>
+		<?js } ?>
+    	<?js= $(member).firstName ?> <?js= $(member).lastName ?> 
+    	works in the <?js= $(member).industry ?> profession.
+	</li>
+<?js } ?>
+</ul>
+
+</script>
+
+
 
 </body>
 </html>
