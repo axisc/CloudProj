@@ -20,7 +20,7 @@ function onLinkedInAuth() {
  
      div.innerHTML = '<h2>Find People on LinkedIn</h2>';
      div.innerHTML += '<form action="javascript:PeopleSearch();">' +
-                      '<input id="keywords" size="30" value="JavaScript Ninja" type="text">' +
+                      '<input id="keywords" size="30" value="Ashish Chhabria" type="text">' +
                       '<input type="submit" value="Search!" /></form>';
 }
  
@@ -31,10 +31,11 @@ function PeopleSearch(keywords) {
      // On success, call displayPeopleSearch(); On failure, do nothing.
      var keywords = document.getElementById('keywords').value; 
      IN.API.PeopleSearch()
-         .fields("firstName", "lastName", "distance", "siteStandardProfileRequest")
-         .params({"keywords": keywords, "count": 1000, "sort": "distance"})
+         .fields("firstName", "lastName", "distance", "siteStandardProfileRequest"
+                 , "educations", "pictureUrl", "skills", "positions")
+         .params({"keywords": keywords, "count": 3, "sort": "distance"})
          .result(displayPeopleSearch)
-         .error(function error(e) { /* do nothing */ }
+         .error(function error(e) { document.getElementById("errorField").innerHTML = "<p> Error::: "+ e.message +" </p>"; }
      );
 }
  
@@ -47,11 +48,13 @@ function displayPeopleSearch(peopleSearch) {
      var members = peopleSearch.people.values;
      for (var member in members) {
  
-         // Look through result to make name and url.
+         // Look through result to make name
          var nameText = members[member].firstName + " " + members[member].lastName;
+
+         // Get the linkedIn Profile URL
          var url = members[member].siteStandardProfileRequest.url;
  
-         // Turn the number into English
+         // Get the degrees of connection
          var distance = members[member].distance;
          var distanceText = '';
          switch (distance) {
@@ -70,9 +73,56 @@ function displayPeopleSearch(peopleSearch) {
          default: // Hope we never get this!
              distanceText = "far, far, away.";
          }
- 
-         div.innerHTML += "<li><a href=\"" + url + "\">" + nameText + 
-         "</a> is " + distanceText + "</li>"
+
+         //Get Educations
+         var educationText = "<br/> Education:: ";
+         if(members[member].educations != null){
+        	 var edus = members[member].educations.values;
+             for(var edu in edus){
+             	educationText += "<br/>- Degree: " + edus[edu].degree + " at <b>" 
+             		+ edus[edu].schoolName + "</b> (" + edus[edu].endDate.year + ")";
+             }
+         } else {
+        	 educationText += "N/A";
+         }
+
+         // Get the profile image
+         var profileImageURL = members[member].pictureUrl;
+
+         // Get the users skills
+         var skillsText = "<br/> Skills:: ";
+         if(members[member].skills != null){
+         	var skills = members[member].skills.values;
+         	for(var skill in skills){
+             	skillsText += "<br/> - Skill: " + skills[skill].proficiency.name  + " at " 
+             		+ skills[skill].skill.name + " with " + skills[skill].years.name + " years of expierence.";
+         	}
+         } else {
+			skillsText += "N/A";	
+         }
+
+		 // Get the users positions
+         var positionsText = "<br/> Positions:: ";
+         if(members[member].positions != null){
+         	var poss = members[member].positions.values;
+         	for(var pos in poss){
+             	positionsText += "<br/> - Worked as " + poss[pos].title + " at <b>"
+             		+ poss[pos].company.name + "</b>";
+             		if(poss[pos].startDate != null){
+             			positionsText += " (" + poss[pos].startDate.month + "/" + poss[pos].startDate.year;
+		             	if(poss[pos].endDate != null){
+		             		positionsText += " till " + poss[pos].endDate.month + "/" + poss[pos].endDate.year + ")";
+		             	} else {
+		             		positionsText += " till now)";
+		             	}
+             		}
+         	}
+         } else {
+			skillsText += "N/A";	
+         }
+     	
+         div.innerHTML += "<li> <img src=\"" + profileImageURL + "\" /> <a href=\"" + url + "\">" + nameText + 
+         "</a> is " + distanceText + educationText + positionsText + "</li><br/>";
      }
  
      div.innerHTML += "</ul>";
@@ -83,5 +133,6 @@ function displayPeopleSearch(peopleSearch) {
 <script type="IN/Login"></script>
 <div id="peopleSearchForm"></div>
 <div id="peopleSearchResults"></div>
+<div id="errorField"></div>
 </body>
 </html>
