@@ -14,13 +14,18 @@ function onLinkedInLoad() {
      IN.Event.on(IN, "auth", onLinkedInAuth);
 }
  
+function goToNextPage(id){
+		alert(id);
+		location.href = "DisplayProfile.php";
+}
+	
 function onLinkedInAuth() {
      // After they've signed-in, print a form to enable keyword searching
      var div = document.getElementById("peopleSearchForm");
  
      div.innerHTML = '<h2>Find People on LinkedIn</h2>';
      div.innerHTML += '<form action="javascript:PeopleSearch();">' +
-                      '<input id="keywords" size="30" value="Ashish Chhabria" type="text">' +
+                      '<input id="keywords" size="30" value="Ashish Chhabria " type="text">' +
                       '<input type="submit" value="Search!" /></form>';
 }
  
@@ -31,7 +36,7 @@ function PeopleSearch(keywords) {
      // On success, call displayPeopleSearch(); On failure, do nothing.
      var keywords = document.getElementById('keywords').value; 
      IN.API.PeopleSearch()
-         .fields("firstName", "lastName", "distance", "siteStandardProfileRequest"
+         .fields("firstName", "id" , "lastName", "distance", "siteStandardProfileRequest"
                  , "educations", "pictureUrl", "skills", "positions")
          .params({"keywords": keywords, "count": 3, "sort": "distance"})
          .result(displayPeopleSearch)
@@ -50,10 +55,10 @@ function displayPeopleSearch(peopleSearch) {
  
          // Look through result to make name
          var nameText = members[member].firstName + " " + members[member].lastName;
-
+		 var id = members[member].id;
          // Get the linkedIn Profile URL
-         var url = members[member].siteStandardProfileRequest.url;
- 
+       //	var id = members[member].siteStandardProfileRequest.url;
+ 		var url ="DisplayProfile.php";
          // Get the degrees of connection
          var distance = members[member].distance;
          var distanceText = '';
@@ -121,12 +126,12 @@ function displayPeopleSearch(peopleSearch) {
 			skillsText += "N/A";	
          }
      	
-         div.innerHTML += "<li> <img src=\"" + profileImageURL + "\" /> <a href=\"" + url + "\">" + nameText + 
-         "</a> is " + distanceText + educationText + positionsText + "</li><br/>";
+         div.innerHTML += "<li> <img src=\"" + profileImageURL + "\" /> <a  href=\"" + url + "?id="+ id+ "\"  >" + nameText + 
+         "</a> is " + distanceText + educationText + positionsText + id + "</li><br/>";
      }
  
      div.innerHTML += "</ul>";
-}
+}onClick="alert(this.name);return false;"
 </script>
 </head>
 <body>
